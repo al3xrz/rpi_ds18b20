@@ -1,0 +1,6 @@
+{
+	"server" : "192.168.88.205",
+	"host" : "host0",
+	"timeout": 60,
+	"repeat" : true
+}
