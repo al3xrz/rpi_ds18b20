@@ -1,0 +1,13 @@
+[Unit]
+  Description = "Send temperature to zabbix server"
+  After = multi-user.target
+
+[Service]
+  Type = idle
+  ExecStart = /usr/bin/node /home/pi/temperature/index.js
+
+[Install]
+  WantedBy = multi-user.target
+
+
+

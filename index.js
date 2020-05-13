@@ -21,11 +21,11 @@ function getSettings(){
 getSettings()
 	.then(settings=> {
 		console.log(settings)
-		if(settings.repeat){
+		if(settings.zabbix.repeat){
 			sendResults(settings)
 			setInterval(() =>{
 				sendResults(settings);
-			}, settings.timeout*1000)
+			}, settings.zabbix.timeout*1000)
 		} else {
 			sendResults(settings)
 		}
@@ -42,7 +42,7 @@ getSettings()
 
 function sendResults(settings){
 	const sender = new ZabbixSender({
-		host : settings.server
+		host : settings.zabbix.server
 	})
 
 	sensor.list((err, devIDs) =>{
@@ -60,13 +60,22 @@ function sendResults(settings){
 
 					} else{
 						console.log(`Temperature from ${id} / ${index} : ${temp}`)
-						sender.addItem(settings.host,`temp${index}`,temp).send((err, res)=>{
+						try{
+							sender.addItem(settings.zabbix.host,`temp${index}`,temp).send((err, res)=>{
 							if(err) {
 								console.log(err)
 							} else {
 								console.log(res)
+							//	throw err
 							}
 						})
+
+								
+						}
+						catch(err){
+							console.log(err)
+						}
+
 					}
 					index++
 				})
